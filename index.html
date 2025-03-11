@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light"  class="bg-blue-100 min-h-screen">
+<html lang="en" data-theme="light"  class="bg-blue-200 min-h-screen">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,17 +20,25 @@
 </head>
 <body>
     <header>
-        <nav class="w-11/12 mx-auto flex justify-between border-b-2">
+        <nav class="w-11/12 mx-auto flex justify-between items-center border-b-1 py-4">
             <div class="logo">
-                <img src="./img/logo.png" alt="">
+                <img class="w-32" src="./img/logo.png" alt="">
             </div>
             <div class="sort">
                 <button class="btn">Sort By View</button>
             </div>
             <div class="blogs">
-                <button class="btn">blogs</button>
+                <button class="btn bg-red-400 text-white">blogs</button>
             </div>
         </nav>
     </header>
+    <nav id="cetegary_container" class=" flex py-5 justify-center gap-5">
+        <button class="btn btn-sm">all</button>
+        <button class="btn btn-sm">all</button>
+        <button class="btn btn-sm">all</button>
+    </nav>
+
+
+    <script src="script.js"></script>
 </body>
 </html>
