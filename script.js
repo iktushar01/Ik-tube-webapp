@@ -13,6 +13,17 @@ function loadVideos() {
     .then((data) => displayVideos(data.videos));
 }
 
+const loadCategoryVideo = (id) => {
+  console.log(id);
+  const url = `
+  https://openapi.programming-hero.com/api/phero-tube/category/${id}
+  `;
+  console.log(url);
+  fetch(url)
+  .then(res => res.json())
+  .then(data => displayVideos(data.category));
+}
+
 function displayCategories(categories) {
   // get the container
   const categoryContainer = document.getElementById("category_container");
@@ -22,7 +33,7 @@ function displayCategories(categories) {
     // create element
     const categoryDiv = document.createElement("div");
     categoryDiv.innerHTML = `
-    <button class="btn btn-sm active:bg-orange-500 active:text-white">${cat.category}</button>
+    <button id="${cat.category_id}" onclick = "loadCategoryVideo(${cat.category_id})" class="btn btn-sm active:bg-orange-500 active:text-white">${cat.category}</button>
     `;
     // append the element
     categoryContainer.append(categoryDiv);
@@ -31,6 +42,18 @@ function displayCategories(categories) {
 
 const displayVideos = (videos) => {
   const videoContainer = document.getElementById("video_container");
+
+  videoContainer.innerHTML = '';
+  if (videos.length === 0){
+    videoContainer.innerHTML = `
+    <div class="py-20 col-span-full flex flex-col text-center justify-center items-center">
+        <img class="w-[120px]" src="./img/Icon.png" alt="">
+        <h2 class="text-2xl font-bold">Oops!! Sorry, There is no content here</h2>
+      </div>
+    `
+    ;
+    return;
+  }
   videos.forEach((video) => {
     //console.log(video);
     const videoCard = document.createElement("div");
@@ -67,22 +90,3 @@ const displayVideos = (videos) => {
 
 loadCategories();
 loadVideos();
-
-// {
-//     "category_id": "1003",
-//     "video_id": "aaai",
-//     "thumbnail": "https://i.ibb.co/kc8CCFs/30-rock.png",
-//     "title": "30 Rock",
-//     "authors": [
-//         {
-//             "profile_picture": "https://i.ibb.co/YZN9rQZ/tina.jpg",
-//             "profile_name": "Tina Fey",
-//             "verified": false
-//         }
-//     ],
-//     "others": {
-//         "views": "4.5K",
-//         "posted_date": "14800"
-//     },
-//     "description": "'30 Rock,' led by Tina Fey, is a comedy series that has garnered 4.5K views. The show is a witty and humorous take on the behind-the-scenes antics of a fictional live comedy show. With its sharp writing and unforgettable characters, '30 Rock' is perfect for fans of smart, satirical humor and engaging storylines."
-// }
