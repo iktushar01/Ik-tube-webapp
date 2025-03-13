@@ -1,3 +1,11 @@
+function removeActiveClass(){
+  const activeButton = document.getElementsByClassName("active");
+  console.log(activeButton);
+  for (let btn of activeButton){
+    btn.classList.remove("active")
+  }
+}
+
 function loadCategories() {
   // 1 - fetch the data
   fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
@@ -10,18 +18,26 @@ function loadCategories() {
 function loadVideos() {
   fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
     .then((res) => res.json())
-    .then((data) => displayVideos(data.videos));
+    .then((data) =>{
+      removeActiveClass()
+      document.getElementById("btn_all").classList.add("active")
+      displayVideos(data.videos)
+    });
 }
 
 const loadCategoryVideo = (id) => {
   console.log(id);
-  const url = `
-  https://openapi.programming-hero.com/api/phero-tube/category/${id}
+  const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}
   `;
   console.log(url);
   fetch(url)
   .then(res => res.json())
-  .then(data => displayVideos(data.category));
+  .then(data => {
+    removeActiveClass();
+    const clickedBtn = document.getElementById(`btn-${id}`);
+    clickedBtn.classList.add("active");
+    displayVideos(data.category);
+  });
 }
 
 function displayCategories(categories) {
@@ -33,7 +49,7 @@ function displayCategories(categories) {
     // create element
     const categoryDiv = document.createElement("div");
     categoryDiv.innerHTML = `
-    <button id="${cat.category_id}" onclick = "loadCategoryVideo(${cat.category_id})" class="btn btn-sm active:bg-orange-500 active:text-white">${cat.category}</button>
+    <button id="btn-${cat.category_id}" onclick = "loadCategoryVideo(${cat.category_id})" class="btn btn-sm active:bg-orange-500 active:text-white">${cat.category}</button>
     `;
     // append the element
     categoryContainer.append(categoryDiv);
