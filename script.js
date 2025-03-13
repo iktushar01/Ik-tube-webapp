@@ -15,8 +15,8 @@ function loadCategories() {
     .then((data) => displayCategories(data.categories));
 }
 
-function loadVideos() {
-  fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
+function loadVideos(searchText = "") {
+  fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
     .then((res) => res.json())
     .then((data) =>{
       removeActiveClass()
@@ -106,7 +106,7 @@ const displayVideos = (videos) => {
               <img class = "w-full h-[200px] object-cover"
                 src="${video.thumbnail}"
                 alt="Shoes" />
-                <span class="absolute bottom-2 right-2 text-white bg-black px-2 rounded-sm">3hrs 56 min ago</span>
+                <span class="absolute bottom-2 right-2 text-white bg-black px-2 rounded-sm"> 32 min ago</span>
             </figure>
             <div class="my-4 flex gap-3 px-2 flex-row items-start">
               <div class="profile">
@@ -118,7 +118,11 @@ const displayVideos = (videos) => {
               </div>
               <div class="intro">
                 <h1 class="text-lg font-semibold">${video.title}</h1>
-                <p class="text-sm text-gray-400 flex gap-1">${video.authors[0].profile_name} <img class="w-5 h-5" src="https://img.icons8.com/?size=100&id=bE5mRAhk65Br&format=png&color=000000" alt=""></p>
+                <p class="text-sm text-gray-400 flex gap-1">
+                ${video.authors[0].profile_name} 
+                ${video.authors[0].verified == true ? `<img class="w-5 h-5" src="https://img.icons8.com/?size=100&id=bE5mRAhk65Br&format=png&color=000000" alt="">` : " " } 
+             
+                </p>
                 <p class="text-sm text-gray-400 ">${video.others.views} views</p>
               </div>
               
@@ -131,5 +135,10 @@ const displayVideos = (videos) => {
   });
 };
 
+
+document.getElementById('search_input').addEventListener("keyup", (event) =>{
+  const input = event.target.value;
+  loadVideos(input)
+})
 loadCategories();
 loadVideos();
